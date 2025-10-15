@@ -20,7 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# A simple in-memory dictionary to store history for each session
+
 SESSION_HISTORY = {}
 
 @app.post("/api/analyze")
@@ -45,10 +45,10 @@ async def analyze(
         utils.call_llm, age or 0, sex or "", symptoms or "", pdf_text or ""
     )
 
-    # Get the current history for this session, or create a new list if it's the first time
+
     user_history = SESSION_HISTORY.get(x_session_id, [])
     
-    # Add the new result to this user's history
+
     user_history.insert(0, {
         "age": age,
         "sex": sex,
@@ -56,7 +56,7 @@ async def analyze(
         "result": llm_json
     })
     
-    # Save it back to the main session dictionary
+
     SESSION_HISTORY[x_session_id] = user_history
 
     return JSONResponse(content=llm_json)
@@ -70,12 +70,12 @@ async def get_history(
     if not x_session_id:
         raise HTTPException(status_code=400, detail="Session ID header missing")
 
-    # Add cache-control headers
+
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
     
-    # Get the history for this session, returning an empty list if none exists
+
     user_history = SESSION_HISTORY.get(x_session_id, [])
     
     return user_history
