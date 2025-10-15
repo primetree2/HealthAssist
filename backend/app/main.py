@@ -7,12 +7,10 @@ from . import utils, crud
 
 app = FastAPI(title="HealthAssist API")
 
-# 1. More Secure CORS for Production
-# This list should contain the URLs where your frontend will be deployed.
-# The wildcard "*" is okay for development but not recommended for production.
+
 origins = [
     "http://localhost:5173",
-    # "https://your-frontend-app-name.vercel.app", # Add your production URL here
+    "https://health-assist-rose.vercel.app/"
 ]
 
 app.add_middleware(
@@ -39,24 +37,23 @@ async def analyze(
             raise HTTPException(status_code=400, detail="Invalid file type. Please upload a PDF.")
         try:
             pdf_bytes = await file.read()
-            # 2. Run blocking I/O in a threadpool to avoid freezing the server
+
             pdf_text = await run_in_threadpool(utils.extract_text_from_pdf, pdf_bytes)
         except Exception as e:
-            # 3. Better Error Handling with HTTPException
-            # This sends a proper HTTP error back to the frontend.
+
             raise HTTPException(status_code=500, detail=f"Error processing PDF file: {e}")
 
     try:
-        # Also run the LLM call (which can be slow) in the threadpool
+
         llm_json = await run_in_threadpool(
             utils.call_llm, age or 0, sex or "", symptoms or "", pdf_text or ""
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error calling AI model: {e}")
 
-    # Save to the database
+
     try:
-        # Database operations are also blocking and should be run in a threadpool
+
         await run_in_threadpool(
             crud.create_history,
             age=age,
@@ -66,8 +63,7 @@ async def analyze(
             result=llm_json
         )
     except Exception as e:
-        # For DB errors, you might not want to show the error to the user,
-        # but it's crucial to log it on the server.
+
         print(f"CRITICAL: Failed to save analysis to database. Error: {e}")
 
     return JSONResponse(content=llm_json)
@@ -79,7 +75,7 @@ async def get_history():
     Retrieves the analysis history from the database.
     """
     try:
-        # Fetching from DB should also be non-blocking
+
         history = await run_in_threadpool(crud.get_history)
         return history
     except Exception as e:
