@@ -5,7 +5,7 @@
 
 ## 🎥 Demo
 
-[![Watch the demo]](https://drive.google.com/file/d/1iDCuAI80BAPXX9SEevZUiGiGj2ut6r4r/view?usp=sharing)
+[[Watch the demo]](https://drive.google.com/file/d/1iDCuAI80BAPXX9SEevZUiGiGj2ut6r4r/view?usp=sharing)
 
 
 ## 🚀 Features
@@ -122,7 +122,7 @@ HealthAssist/
 │   ├── tailwind.config.cjs
 │   └── vite.config.js
 │
-│── .env  
+│── .env 
 ├── venv/                   # Python virtual environment
 ├── .gitignore
 ├── LICENSE
