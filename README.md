@@ -1,11 +1,18 @@
 # 🌿 HealthAssist: Welcome!
 
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+[![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
+
 **HealthAssist** is a smart web app and your personal AI health companion. It takes your symptoms, an optional blood report (PDF), and a few demographic details, then generates a structured health analysis and helpful advice using advanced LLMs (like Gemini or OpenAI models). 
 ---
 
 ## 🎥 Demo
+[[CLICK HERE TO TRY HealthAssist!](https://health-assist-rose.vercel.app/)]
 
-[[Watch the demo]](https://drive.google.com/file/d/1iDCuAI80BAPXX9SEevZUiGiGj2ut6r4r/view?usp=sharing)
+[[Or Watch the demo]](https://drive.google.com/file/d/1iDCuAI80BAPXX9SEevZUiGiGj2ut6r4r/view?usp=sharing)
 
 
 ## 🚀 Features
@@ -14,56 +21,87 @@
 📊 **Blood Report Upload** — Get deeper context-aware feedback  
 🧠 **LLM Integration** — Powered by OpenAI or Gemini (LLM) 
 🗂️ **History Tracking** — Check your previous searches
-🖥️ **Modern Stack** — React + FastAPI + SQLite for speed and simplicity  
+🖥️ **Modern Stack** — React + FastAPI for speed and simplicity  
 🌑 **Dark & Modern UI** — Smooth animations and elegant dark scrollbars  
+☁️ **Cloud Database** — Integrated with postgreSQL to save your session search history
 
 ---
 
 ## 🧩 Tech Stack
 
-| Part | Technology |
-|------|-------------|
-| Frontend | React (Vite) + Tailwind CSS |
-| Backend | FastAPI (Python) |
-| Database | SQLite |
-| AI Models | OpenAI / Gemini APIs |
-| Deployment | Vercel (frontend) + Render / Railway (backend) |
+| Component      | Technology                                     |
+| -------------- | ---------------------------------------------- |
+| **Frontend** | React (Vite), Tailwind CSS                     |
+| **Backend** | FastAPI (Python)                               |
+| **Database** | PostgreSQL                                     |
+| **AI Model** | Google Gemini API                              |
+| **Deployment** | Vercel (Frontend), Render (Backend & Database) |
 
 ---
+## ⚙️ Local Development Setup
+
+To run this project on your local machine, you'll need Git, Python, Node.js, and Docker installed.
+
+### 1. Clone the Repository
+
+```bash
+git clone [https://github.com/primetree2/HealthAssist.git](https://github.com/primetree2/HealthAssist.git)
+cd HealthAssist
 
 ## ⚙️ Setup Guide 
 
-### 🔧 Backend Setup
+## 2. Backend Setup (FastAPI & PostgreSQL)
+The backend uses a PostgreSQL database. The recommended way to run it locally is with Docker.
+
+Start the Database: This command reads the docker-compose.yml file and starts a PostgreSQL container in the background.
 
 ```bash
-# 1. Create a virtual environment
-python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
 
-# 2. Install dependencies
-pip install -r backend/requirements.txt
-
-# 3. Setup environment variables
-cp backend/.env.example backend/.env
-# Add your API key inside backend/.env:
-# OPENAI_API_KEY=your_secret_key
-
-# 4. Start the FastAPI server
-uvicorn backend.app.main:app --reload --port 8000
+docker-compose up -d
 ```
+Configure Backend Environment: Navigate to the backend folder, copy the example environment file, and fill in your API key.
+
+
+```bash
+
+cd backend
+cp .env.example .env
+
+```
+Now, open backend/.env and add your GOOGLE_API_KEY. The DATABASE_URL is already set up for the local Docker container.
+
+Install Dependencies & Run Server:
+
+```bash
+
+# Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install Python packages
+pip install -r requirements.txt
+
+# Run the FastAPI server
+uvicorn app.main:app --reload --port 8000
+```
+Your backend is now running at http://localhost:8000.
 
 ---
 
 ### 💻 Frontend Setup
+Configure Frontend Environment: In a new terminal, navigate to the frontend directory. Create a development environment file.
 
 ```bash
 cd frontend
+echo 'VITE_API_BASE_URL="http://localhost:8000"' > .env.development
+```
+Install Dependencies & Run:
+
+```bash
 npm install
 npm run dev
 ```
-
-🧭 The app will run on `http://localhost:5173` and automatically proxy API requests to `http://localhost:8000` (configured in `vite.config.js`).
-
+Your frontend development server is now running at http://localhost:5173.
 ---
 
 ## 🧑‍💻 Developer Notes

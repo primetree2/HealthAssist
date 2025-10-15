@@ -26,7 +26,7 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black flex flex-col items-center justify-center p-6 font-sans text-white">
 
       <AuroraBackground>
-  <div className="w-full max-w-2xl bg-black/40 backdrop-blur-md border border-gray-700 rounded-3xl shadow-lg p-8 transition-all duration-300">
+  <div className="w-full max-w-2xl bg-black/40 backdrop-blur-md border border-gray-700 rounded-3xl shadow-lg p-22 transition-all duration-300">
 
     <div className="text-center mb-8">
   <AuroraTitle text="HealthAssist" />
