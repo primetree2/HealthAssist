@@ -7,7 +7,7 @@ export default function History({ refreshFlag }) {
   const fetchHistory = () => {
     const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
     
-    axios.get(`${API_URL}/api/history`)
+    apiClient.get('/api/history')
       .then(r => setItems(r.data))
       .catch((error) => {
         

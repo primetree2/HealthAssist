@@ -31,7 +31,7 @@ export default function SymptomForm({ demographics, onResult, onBack }) {
       if (file) form.append('file', file)
 
       const API_URL = import.meta.env.VITE_API_BASE_URL;
-      const res = await axios.post(`${API_URL}/api/analyze`, form, {
+      const res = await apiClient.post('/api/analyze', form, { 
       headers: { 'Content-Type': 'multipart/form-data' }
       });
       setProgress(100)
