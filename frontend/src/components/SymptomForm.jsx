@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import apiClient from '../api';
 import LoadingBar from './LoadingBar'
 
 export default function SymptomForm({ demographics, onResult, onBack }) {

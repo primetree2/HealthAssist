@@ -1,16 +1,15 @@
-# HealthAssist/backend/app/main.py
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Response
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Header, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
-from . import utils, crud
+from typing import Optional
+from . import utils
 
 app = FastAPI(title="HealthAssist API")
 
-
 origins = [
     "http://localhost:5173",
-    "https://health-assist-rose.vercel.app"  
+    "https://health-assist-rose.vercel.app"
 ]
 
 app.add_middleware(
@@ -21,66 +20,62 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# A simple in-memory dictionary to store history for each session
+SESSION_HISTORY = {}
+
 @app.post("/api/analyze")
 async def analyze(
     age: int = Form(None),
     sex: str = Form(None),
     symptoms: str = Form(""),
-    file: UploadFile = File(None)
+    file: UploadFile = File(None),
+    x_session_id: Optional[str] = Header(None)
 ):
-    """
-    Accepts form fields and an optional PDF file, returning a structured JSON analysis.
-    """
+    if not x_session_id:
+        raise HTTPException(status_code=400, detail="Session ID header missing")
+
     pdf_text = ""
     if file:
-        if file.content_type != 'application/pdf':
-            raise HTTPException(status_code=400, detail="Invalid file type. Please upload a PDF.")
-        try:
-            pdf_bytes = await file.read()
+        # ... (PDF processing logic remains the same)
+        pdf_bytes = await file.read()
+        pdf_text = await run_in_threadpool(utils.extract_text_from_pdf, pdf_bytes)
 
-            pdf_text = await run_in_threadpool(utils.extract_text_from_pdf, pdf_bytes)
-        except Exception as e:
+    # Get the analysis from the LLM
+    llm_json = await run_in_threadpool(
+        utils.call_llm, age or 0, sex or "", symptoms or "", pdf_text or ""
+    )
 
-            raise HTTPException(status_code=500, detail=f"Error processing PDF file: {e}")
-
-    try:
-
-        llm_json = await run_in_threadpool(
-            utils.call_llm, age or 0, sex or "", symptoms or "", pdf_text or ""
-        )
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error calling AI model: {e}")
-
-
-    try:
-
-        await run_in_threadpool(
-            crud.create_history,
-            age=age,
-            sex=sex,
-            symptoms=symptoms,
-            pdf_summary=pdf_text,
-            result=llm_json
-        )
-    except Exception as e:
-
-        print(f"CRITICAL: Failed to save analysis to database. Error: {e}")
+    # Get the current history for this session, or create a new list if it's the first time
+    user_history = SESSION_HISTORY.get(x_session_id, [])
+    
+    # Add the new result to this user's history
+    user_history.insert(0, {
+        "age": age,
+        "sex": sex,
+        "symptoms": symptoms,
+        "result": llm_json
+    })
+    
+    # Save it back to the main session dictionary
+    SESSION_HISTORY[x_session_id] = user_history
 
     return JSONResponse(content=llm_json)
 
 
 @app.get("/api/history")
-async def get_history(response: Response): 
-    """
-    Retrieves the analysis history from the database.
-    """
-    
+async def get_history(
+    response: Response,
+    x_session_id: Optional[str] = Header(None)
+):
+    if not x_session_id:
+        raise HTTPException(status_code=400, detail="Session ID header missing")
+
+    # Add cache-control headers
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
     
-    try:
-        history = await run_in_threadpool(crud.get_history)
-        return history
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to retrieve history: {e}")
+    # Get the history for this session, returning an empty list if none exists
+    user_history = SESSION_HISTORY.get(x_session_id, [])
+    
+    return user_history

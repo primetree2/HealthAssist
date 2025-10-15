@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import apiClient from '../api';
 
 export default function History({ refreshFlag }) {
   const [items, setItems] = useState([]);
