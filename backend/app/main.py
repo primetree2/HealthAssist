@@ -10,7 +10,7 @@ app = FastAPI(title="HealthAssist API")
 
 origins = [
     "http://localhost:5173",
-    "https://health-assist-rose.vercel.app/"
+    "https://health-assist-rose.vercel.app"
 ]
 
 app.add_middleware(
