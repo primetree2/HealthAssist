@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function History({ refreshFlag }) {
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState([]);
 
   const fetchHistory = () => {
-    axios.get('http://127.0.0.1:8000/api/history')
+    const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+    
+    axios.get(`${API_URL}/api/history`)
       .then(r => setItems(r.data))
-      .catch(() => {})
-  }
+      .catch((error) => {
+        
+        console.error("Failed to fetch history:", error);
+      });
+  };
 
-  useEffect(() => { fetchHistory() }, [])
-  useEffect(() => { fetchHistory() }, [refreshFlag])
+
+  useEffect(() => { fetchHistory() }, []);
+  useEffect(() => { fetchHistory() }, [refreshFlag]);
 
   return (
     <div>
@@ -31,5 +37,5 @@ export default function History({ refreshFlag }) {
         )}
       </div>
     </div>
-  )
+  );
 }
