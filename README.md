@@ -47,7 +47,7 @@ To run this project on your local machine, you'll need Git, Python, Node.js, and
 ```bash
 git clone [https://github.com/primetree2/HealthAssist.git](https://github.com/primetree2/HealthAssist.git)
 cd HealthAssist
-
+```
 ## ⚙️ Setup Guide 
 
 ## 2. Backend Setup (FastAPI & PostgreSQL)
@@ -56,24 +56,19 @@ The backend uses a PostgreSQL database. The recommended way to run it locally is
 Start the Database: This command reads the docker-compose.yml file and starts a PostgreSQL container in the background.
 
 ```bash
-
 docker-compose up -d
 ```
 Configure Backend Environment: Navigate to the backend folder, copy the example environment file, and fill in your API key.
 
-
 ```bash
-
 cd backend
 cp .env.example .env
-
 ```
 Now, open backend/.env and add your GOOGLE_API_KEY. The DATABASE_URL is already set up for the local Docker container.
 
 Install Dependencies & Run Server:
 
 ```bash
-
 # Create and activate a virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -102,6 +97,7 @@ npm install
 npm run dev
 ```
 Your frontend development server is now running at http://localhost:5173.
+
 ---
 
 ## 🧑‍💻 Developer Notes
