@@ -1,5 +1,5 @@
 # HealthAssist/backend/app/main.py
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
@@ -70,12 +70,16 @@ async def analyze(
 
 
 @app.get("/api/history")
-async def get_history():
+async def get_history(response: Response): 
     """
     Retrieves the analysis history from the database.
     """
+    
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    
     try:
-
         history = await run_in_threadpool(crud.get_history)
         return history
     except Exception as e:
