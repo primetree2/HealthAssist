@@ -11,3 +11,4 @@ openai
 orjson
 google-generativeai
 psycopg2-binary
+
