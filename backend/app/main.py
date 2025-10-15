@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Header, Resp
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
+from datetime import datetime 
 from typing import Optional
 from . import utils
 
@@ -53,7 +54,8 @@ async def analyze(
         "age": age,
         "sex": sex,
         "symptoms": symptoms,
-        "result": llm_json
+        "result": llm_json,
+        "timestamp": datetime.now().isoformat()
     })
     
 
