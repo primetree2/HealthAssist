@@ -6,7 +6,7 @@
 [![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 [![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
 
-**HealthAssist** is a smart web app and your personal AI health companion. It takes your symptoms, an optional blood report (PDF), and a few demographic details, then generates a structured health analysis and helpful advice using advanced LLMs (like Gemini or OpenAI models). 
+**HealthAssist** is a smart web app that is your personal AI health companion. It takes your symptoms, an optional blood report (PDF), and a few demographic details, then generates a structured health analysis and helpful advice using advanced LLMs (like Gemini or OpenAI models). 
 ---
 
 ## 🎥 Demo
@@ -20,7 +20,7 @@
 ✨ **Smart Health Analysis** — Understand your symptoms through AI-generated insights  
 📊 **Blood Report Upload** — Get deeper context-aware feedback  
 🧠 **LLM Integration** — Powered by OpenAI or Gemini (LLM) 
-🗂️ **History Tracking** — Check your previous searches
+🗂️ **History Tracking** — Saves each user's session search history
 🖥️ **Modern Stack** — React + FastAPI for speed and simplicity  
 🌑 **Dark & Modern UI** — Smooth animations and elegant dark scrollbars  
 ☁️ **Cloud Database** — Integrated with postgreSQL to save your session search history
@@ -31,10 +31,10 @@
 
 | Component      | Technology                                     |
 | -------------- | ---------------------------------------------- |
-| **Frontend** | React (Vite), Tailwind CSS                     |
-| **Backend** | FastAPI (Python)                               |
-| **Database** | PostgreSQL                                     |
-| **AI Model** | Google Gemini API                              |
+| **Frontend**   | React (Vite), Tailwind CSS                     |
+| **Backend**    | FastAPI (Python)                               |
+| **Database**   | PostgreSQL                                     |
+| **AI Model**   | Google Gemini API/Compatible with OpenAI API   |
 | **Deployment** | Vercel (Frontend), Render (Backend & Database) |
 
 ---
@@ -45,7 +45,7 @@ To run this project on your local machine, you'll need Git, Python, Node.js, and
 ### 1. Clone the Repository
 
 ```bash
-git clone [https://github.com/primetree2/HealthAssist.git](https://github.com/primetree2/HealthAssist.git)
+git clone https://github.com/primetree2/HealthAssist.git
 cd HealthAssist
 ```
 ## ⚙️ Setup Guide 
