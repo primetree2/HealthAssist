@@ -19,8 +19,7 @@
 
 ✨ **Smart Health Analysis** — Understand your symptoms through AI-generated insights  
 📊 **Blood Report Upload** — Get deeper context-aware feedback  
-🧠 **LLM Integration** — Powered by OpenAI or Gemini (LLM) 
-🗂️ **History Tracking** — Saves each user's session search history
+🧠 **LLM Integration** — Powered by OpenAI or Gemini (LLM)  
 🖥️ **Modern Stack** — React + FastAPI for speed and simplicity  
 🌑 **Dark & Modern UI** — Smooth animations and elegant dark scrollbars  
 ☁️ **Cloud Database** — Integrated with postgreSQL to save your session search history
