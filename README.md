@@ -6,7 +6,7 @@
 [![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 [![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
 
-**HealthAssist** is a smart web app that is your personal AI health companion. It takes your symptoms, an optional blood report (PDF), and a few demographic details, then generates a structured health analysis and helpful advice using advanced LLMs (like Gemini or OpenAI models). 
+**Health-Assist** is a smart web app that is your personal AI health companion. It takes your symptoms, an optional blood report (PDF), and a few demographic details, then generates a structured health analysis and helpful advice using advanced LLMs (like Gemini or OpenAI models). 
 ---
 
 ## 🎥 Demo
