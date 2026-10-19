@@ -1,0 +1,79 @@
+
+> health-assist@2.0.1 check
+> npm run lint && npm run typecheck && npm test && npm run build
+
+
+> health-assist@2.0.1 lint
+> eslint .
+
+
+> health-assist@2.0.1 typecheck
+> tsc --noEmit
+
+
+> health-assist@2.0.1 test
+> tsx --test tests/*.test.ts
+
+✔ range boundaries are inclusive, not diagnostic normality (1.045737ms)
+✔ exact aliases only, unknown/fuzzy matches are not accepted (0.216511ms)
+✔ explicit mass concentration scaling converts value AND intervals (0.843876ms)
+✔ unsupported units fail closed (4.282944ms)
+✔ arithmetic comparison is chronological, scaled, and range-aware (0.334321ms)
+✔ prior zero never produces infinite percentage (0.148568ms)
+✔ different labs and ambiguous draws block comparison (7.078117ms)
+✔ unrelated tests and future entries never become a prior result (0.144304ms)
+✔ latest per analyte uses dates, not insertion order (0.223048ms)
+✔ rolling window excludes future and day 30; counts distinct days (0.411871ms)
+✔ visit brief uses prior history without disease inference (0.587593ms)
+✔ real dates only, no future dates, no type coercion (0.574593ms)
+✔ partial or reversed intervals rejected; empty intervals permitted (0.331825ms)
+✔ check-in validates observations, scale, and required safety response (1.219158ms)
+✔ journal rejects unknown fields, duplicate IDs, and incompatible versions (0.765714ms)
+✔ CSV supports quoting and empty reference bounds (3.088305ms)
+✔ CSV rejects inequality, nonnumeric and injected spreadsheet values (3.036002ms)
+✔ CSV import is strict and atomic (1.002004ms)
+✔ CSV cardinality and unit limits are enforced (3.44389ms)
+✔ metamorphic: scaling values and bounds preserves all classifications (0.380085ms)
+✔ latest-date ties are preserved instead of choosing an arbitrary result (0.1401ms)
+✔ AES-GCM round trip and non-extractable key (119.07969ms)
+✔ same content gets a fresh random IV every save (56.585866ms)
+✔ wrong passphrase and tampered ciphertext fail authentication (174.830785ms)
+✔ invalid envelopes and weak passphrases are rejected (0.511215ms)
+✔ larger valid journals encrypt without argument-stack overflow (169.395089ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 930.850563
+
+> health-assist@2.0.1 build
+> next build
+
+▲ Next.js 16.4.2 (Turbopack)
+✓ Running next.config.ts took 19ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1117ms
+  Running TypeScript ...
+  Finished TypeScript in 1568ms ...
+  Collecting page data using 1 worker ...
+  Generating static pages using 1 worker (0/5) ...
+  Generating static pages using 1 worker (1/5) 
+  Generating static pages using 1 worker (2/5) 
+  Generating static pages using 1 worker (3/5) 
+✓ Generating static pages using 1 worker (5/5) in 155ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/catalog
+└ ƒ /api/health
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

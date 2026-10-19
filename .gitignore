@@ -1,15 +1,8 @@
-# Node
 node_modules/
-dist/
-.env
-
-# Python
-__pycache__/
-*.pyc
-venv/
-.env
-*.db
-
-# IDEs
-.vscode/
-.idea/
+.next/
+out/
+.env*
+!.env.example
+test-results/
+playwright-report/
+*.tsbuildinfo

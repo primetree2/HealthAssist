@@ -1,0 +1,9 @@
+node_modules
+.next
+test-results
+playwright-report
+package-lock.json
+LICENSE
+LICENSE-LEGACY
+
+verification/
