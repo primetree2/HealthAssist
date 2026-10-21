@@ -88,3 +88,14 @@ For much larger reports, high throughput, stronger parser isolation, private clo
 - [Vercel function limits](https://vercel.com/docs/functions/limitations)
 - [Vercel FastAPI framework preset](https://vercel.com/docs/frameworks/backend/fastapi)
 - [Google structured outputs](https://ai.google.dev/gemini-api/docs/structured-output)
+
+
+## Troubleshooting: unused_function / unmatched api/index.py
+
+The initial source bundle had an entrypoint export removed during static cleanup. Ensure the committed root `api/index.py` contains:
+
+```python
+from backend.app.main import app as app
+```
+
+The explicit re-export is intentional: it preserves the ASGI callable through unused-import cleanup. `tests/test_vercel_entrypoint.py` guards this behavior. Commit the fix and redeploy. If the same discovery error remains, verify that Vercel's Root Directory is the repository root and that `api/index.py` is present in the deployed commit and not ignored. Do not simply delete the functions configuration: that can hide a missing API rather than fix it.

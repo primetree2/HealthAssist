@@ -1,1 +1,3 @@
-"""Vercel's single Python function; no filesystem history or startup model download."""
+"""Vercel ASGI entrypoint; the explicit re-export must remain available."""
+
+from backend.app.main import app as app
