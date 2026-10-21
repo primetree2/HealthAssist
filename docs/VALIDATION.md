@@ -6,7 +6,7 @@ This is an implementation test record, not clinical validation or a guarantee of
 
 | Area | Result | Scope |
 | --- | --- | --- |
-| Backend regression suite | 114 passed | Parsing, units, comparator intervals, qualitative results, unknown/duplicate/conflicting observations, FHIR, file limits, consent, safe errors, cloud failure recovery and verification requirements |
+| Backend regression suite | 115 passed | Parsing, units, comparator intervals, qualitative results, unknown/duplicate/conflicting observations, FHIR, file limits, consent, safe errors, cloud failure recovery and verification requirements |
 | Browser integration checks | 26 passed; no page errors | Actual local frontend/API integration, sample report, correction/recheck, filters, saving/restoring, error recovery and empty scans |
 | Responsive layouts | No horizontal overflow in checked states | Viewports 320, 390, 768, 1024, 1440 and 1920 pixels wide; not every device/browser combination |
 | Automated accessibility | 0 detected violations in 5 checked states | Desktop/mobile intake, mobile privacy dialog, mobile report, dark report; some gradient contrast checks remain incomplete in axe |

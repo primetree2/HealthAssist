@@ -6,7 +6,7 @@
 2. Commit the source, `frontend/package-lock.json`, `requirements.lock`, `.python-version`, and `vercel.json`.
 3. In Vercel, import that repository and leave the **Root Directory at the repository root**.
 4. Use the provided configuration: framework **Vite**, install command `npm --prefix frontend ci --ignore-scripts`, build command `npm --prefix frontend run build`, output `frontend/dist`.
-5. The Python function is `api/index.py`. Its dependencies are installed from the root `requirements.txt`, which references `requirements.lock`. The backend is explicitly included in the function bundle.
+5. The Python function is `api/index.py`. Its dependencies are installed from the root `requirements.txt`, which contains the same flat pinned dependency list as `requirements.lock`. The backend is explicitly included in the function bundle.
 6. Node 22 LTS and Python 3.13 are selected by the supplied project files. No Docker, PostgreSQL, Torch, sentence-transformer download, Tesseract binary, CDN JavaScript, or separate frontend API URL is required.
 
 **Do not import only `frontend/`:** you would deploy the interface without its API.
@@ -99,3 +99,19 @@ from backend.app.main import app as app
 ```
 
 The explicit re-export is intentional: it preserves the ASGI callable through unused-import cleanup. `tests/test_vercel_entrypoint.py` guards this behavior. Commit the fix and redeploy. If the same discovery error remains, verify that Vercel's Root Directory is the repository root and that `api/index.py` is present in the deployed commit and not ignored. Do not simply delete the functions configuration: that can hide a missing API rather than fix it.
+
+
+## Troubleshooting: PYTHON_REQUIREMENTS_PARSE_ERROR
+
+Vercel CLI 64.5.0 rejected the original `-r requirements.lock` include while parsing the function dependencies. The corrected root `requirements.txt` contains every pinned runtime dependency directly, with the same contents as `requirements.lock`. Keep these files identical when upgrading dependencies. Do not substitute `requirements-dev.txt`: test tooling is not needed in production.
+
+To patch an existing checkout:
+
+```bash
+cp requirements.lock requirements.txt
+git add requirements.txt
+git commit -m "Flatten Python requirements for Vercel"
+git push
+```
+
+Redeploy the resulting commit. The Node 22-versus-24 notice is informational, not the cause of this failure.
