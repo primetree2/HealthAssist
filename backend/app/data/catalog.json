@@ -1,0 +1,722 @@
+[
+  {
+    "name": "Hemoglobin",
+    "aliases": [
+      "Hb",
+      "HGB"
+    ],
+    "category": "CBC",
+    "unit": "g/dL"
+  },
+  {
+    "name": "Packed Cell Volume (PCV) / Hematocrit",
+    "aliases": [
+      "Hematocrit",
+      "PCV",
+      "Hct"
+    ],
+    "category": "CBC",
+    "unit": "%"
+  },
+  {
+    "name": "Red Blood Cell Count",
+    "aliases": [
+      "RBC",
+      "Erythrocyte Count"
+    ],
+    "category": "CBC",
+    "unit": "million/mcL"
+  },
+  {
+    "name": "Mean Corpuscular Volume",
+    "aliases": [
+      "MCV"
+    ],
+    "category": "CBC",
+    "unit": "fL"
+  },
+  {
+    "name": "Mean Corpuscular Hemoglobin",
+    "aliases": [
+      "MCH"
+    ],
+    "category": "CBC",
+    "unit": "pg"
+  },
+  {
+    "name": "Mean Corpuscular Hb Concentration",
+    "aliases": [
+      "MCHC"
+    ],
+    "category": "CBC",
+    "unit": "g/dL"
+  },
+  {
+    "name": "Red Cell Distribution Width",
+    "aliases": [
+      "RDW",
+      "RDW-CV"
+    ],
+    "category": "CBC",
+    "unit": "%"
+  },
+  {
+    "name": "Total Leucocyte Count",
+    "aliases": [
+      "TLC",
+      "WBC",
+      "White Blood Cell Count",
+      "Leucocyte Count"
+    ],
+    "category": "CBC",
+    "unit": "cells/mcL"
+  },
+  {
+    "name": "Neutrophils",
+    "aliases": [
+      "Neut"
+    ],
+    "category": "CBC",
+    "unit": "%"
+  },
+  {
+    "name": "Lymphocytes",
+    "aliases": [
+      "Lymph"
+    ],
+    "category": "CBC",
+    "unit": "%"
+  },
+  {
+    "name": "Monocytes",
+    "aliases": [
+      "Mono"
+    ],
+    "category": "CBC",
+    "unit": "%"
+  },
+  {
+    "name": "Eosinophils",
+    "aliases": [
+      "Eos"
+    ],
+    "category": "CBC",
+    "unit": "%"
+  },
+  {
+    "name": "Basophils",
+    "aliases": [
+      "Baso"
+    ],
+    "category": "CBC",
+    "unit": "%"
+  },
+  {
+    "name": "Platelet Count",
+    "aliases": [
+      "PLT"
+    ],
+    "category": "Platelets",
+    "unit": "per mcL"
+  },
+  {
+    "name": "Mean Platelet Volume",
+    "aliases": [
+      "MPV"
+    ],
+    "category": "Platelets",
+    "unit": "fL"
+  },
+  {
+    "name": "Alanine Aminotransferase",
+    "aliases": [
+      "ALT",
+      "SGPT"
+    ],
+    "category": "Liver",
+    "unit": "U/L"
+  },
+  {
+    "name": "Aspartate Aminotransferase",
+    "aliases": [
+      "AST",
+      "SGOT"
+    ],
+    "category": "Liver",
+    "unit": "U/L"
+  },
+  {
+    "name": "Alkaline Phosphatase",
+    "aliases": [
+      "ALP"
+    ],
+    "category": "Liver",
+    "unit": "U/L"
+  },
+  {
+    "name": "Bilirubin, Total",
+    "aliases": [
+      "Total Bilirubin"
+    ],
+    "category": "Liver",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Bilirubin, Direct",
+    "aliases": [
+      "Direct Bilirubin"
+    ],
+    "category": "Liver",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Total Protein",
+    "aliases": [],
+    "category": "Liver",
+    "unit": "g/dL"
+  },
+  {
+    "name": "Albumin",
+    "aliases": [],
+    "category": "Liver",
+    "unit": "g/dL"
+  },
+  {
+    "name": "Globulin",
+    "aliases": [],
+    "category": "Liver",
+    "unit": "g/dL"
+  },
+  {
+    "name": "Albumin:Globulin Ratio",
+    "aliases": [
+      "A/G Ratio",
+      "A:G Ratio"
+    ],
+    "category": "Liver",
+    "unit": "Ratio"
+  },
+  {
+    "name": "Gamma-Glutamyl Transferase",
+    "aliases": [
+      "GGT",
+      "Gamma GT"
+    ],
+    "category": "Liver",
+    "unit": "U/L"
+  },
+  {
+    "name": "Total Cholesterol",
+    "aliases": [
+      "Cholesterol"
+    ],
+    "category": "Lipids",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Triglycerides",
+    "aliases": [
+      "TG"
+    ],
+    "category": "Lipids",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "High-Density Lipoprotein",
+    "aliases": [
+      "HDL",
+      "HDL Cholesterol",
+      "HDL-C"
+    ],
+    "category": "Lipids",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Low-Density Lipoprotein",
+    "aliases": [
+      "LDL",
+      "LDL Cholesterol",
+      "LDL-C"
+    ],
+    "category": "Lipids",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Creatinine",
+    "aliases": [
+      "Serum Creatinine"
+    ],
+    "category": "Kidney",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Blood Urea Nitrogen",
+    "aliases": [
+      "BUN"
+    ],
+    "category": "Kidney",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "BUN/Creatinine Ratio",
+    "aliases": [],
+    "category": "Kidney",
+    "unit": "Ratio"
+  },
+  {
+    "name": "Uric Acid",
+    "aliases": [
+      "Serum Uric Acid"
+    ],
+    "category": "Kidney",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Glucose, Fasting",
+    "aliases": [
+      "Fasting Blood Sugar",
+      "FBS",
+      "Fasting Plasma Glucose"
+    ],
+    "category": "Diabetes",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Glucose, Postprandial",
+    "aliases": [
+      "PPBS",
+      "Post Meal Sugar",
+      "Post Prandial Glucose"
+    ],
+    "category": "Diabetes",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Hemoglobin A1c",
+    "aliases": [
+      "HbA1c",
+      "Glycated Hemoglobin",
+      "A1c",
+      "HBA1C (Glycosylated Hemoglobin)"
+    ],
+    "category": "Diabetes",
+    "unit": "%"
+  },
+  {
+    "name": "Insulin (Fasting)",
+    "aliases": [
+      "Fasting Insulin"
+    ],
+    "category": "Diabetes",
+    "unit": "\u00b5IU/mL"
+  },
+  {
+    "name": "Sodium",
+    "aliases": [
+      "Na"
+    ],
+    "category": "Electrolytes",
+    "unit": "mEq/L"
+  },
+  {
+    "name": "Potassium",
+    "aliases": [
+      "K"
+    ],
+    "category": "Electrolytes",
+    "unit": "mEq/L"
+  },
+  {
+    "name": "Chloride",
+    "aliases": [
+      "Cl"
+    ],
+    "category": "Electrolytes",
+    "unit": "mEq/L"
+  },
+  {
+    "name": "Bicarbonate (CO2)",
+    "aliases": [
+      "HCO3",
+      "Carbon Dioxide",
+      "Bicarbonate"
+    ],
+    "category": "Electrolytes",
+    "unit": "mEq/L"
+  },
+  {
+    "name": "Thyroid-Stimulating Hormone",
+    "aliases": [
+      "TSH"
+    ],
+    "category": "Thyroid",
+    "unit": "mIU/L"
+  },
+  {
+    "name": "Thyroxine (T4), Total",
+    "aliases": [
+      "T4",
+      "Total T4"
+    ],
+    "category": "Thyroid",
+    "unit": "mcg/dL"
+  },
+  {
+    "name": "Triiodothyronine (T3), Total",
+    "aliases": [
+      "T3",
+      "Total T3"
+    ],
+    "category": "Thyroid",
+    "unit": "ng/dL"
+  },
+  {
+    "name": "Free T4",
+    "aliases": [
+      "FT4",
+      "Free Thyroxine"
+    ],
+    "category": "Thyroid",
+    "unit": "ng/dL"
+  },
+  {
+    "name": "Free T3",
+    "aliases": [
+      "FT3",
+      "Free Triiodothyronine"
+    ],
+    "category": "Thyroid",
+    "unit": "pg/mL"
+  },
+  {
+    "name": "Iron, Total",
+    "aliases": [
+      "Serum Iron"
+    ],
+    "category": "Iron",
+    "unit": "mcg/dL"
+  },
+  {
+    "name": "Ferritin",
+    "aliases": [],
+    "category": "Iron",
+    "unit": "ng/mL"
+  },
+  {
+    "name": "Total Iron Binding Capacity",
+    "aliases": [
+      "TIBC"
+    ],
+    "category": "Iron",
+    "unit": "mcg/dL"
+  },
+  {
+    "name": "Transferrin Saturation",
+    "aliases": [
+      "TSAT"
+    ],
+    "category": "Iron",
+    "unit": "%"
+  },
+  {
+    "name": "Vitamin D, 25-OH",
+    "aliases": [
+      "25-Hydroxyvitamin D",
+      "Vitamin D",
+      "25 OH Vitamin D",
+      "25-OH Vitamin D"
+    ],
+    "category": "Vitamins",
+    "unit": "ng/mL"
+  },
+  {
+    "name": "Vitamin B12",
+    "aliases": [
+      "Cobalamin"
+    ],
+    "category": "Vitamins",
+    "unit": "pg/mL"
+  },
+  {
+    "name": "Folate (Vitamin B9)",
+    "aliases": [
+      "Folate"
+    ],
+    "category": "Vitamins",
+    "unit": "ng/mL"
+  },
+  {
+    "name": "Calcium",
+    "aliases": [],
+    "category": "Minerals",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Magnesium",
+    "aliases": [],
+    "category": "Minerals",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Phosphorus",
+    "aliases": [],
+    "category": "Minerals",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Prothrombin Time",
+    "aliases": [
+      "PT"
+    ],
+    "category": "Coagulation",
+    "unit": "seconds"
+  },
+  {
+    "name": "International Normalized Ratio",
+    "aliases": [
+      "INR"
+    ],
+    "category": "Coagulation",
+    "unit": "ratio"
+  },
+  {
+    "name": "Partial Thromboplastin Time",
+    "aliases": [
+      "aPTT",
+      "PTT"
+    ],
+    "category": "Coagulation",
+    "unit": "seconds"
+  },
+  {
+    "name": "D-Dimer",
+    "aliases": [
+      "D Dimer"
+    ],
+    "category": "Coagulation",
+    "unit": "ng/mL"
+  },
+  {
+    "name": "C-Reactive Protein",
+    "aliases": [
+      "CRP"
+    ],
+    "category": "Inflammation",
+    "unit": "mg/L"
+  },
+  {
+    "name": "Erythrocyte Sedimentation Rate",
+    "aliases": [
+      "ESR",
+      "Sed Rate"
+    ],
+    "category": "Inflammation",
+    "unit": "mm/hr"
+  },
+  {
+    "name": "Troponin I",
+    "aliases": [],
+    "category": "Cardiac",
+    "unit": "ng/mL"
+  },
+  {
+    "name": "Creatine Kinase-MB",
+    "aliases": [
+      "CK-MB"
+    ],
+    "category": "Cardiac",
+    "unit": "ng/mL"
+  },
+  {
+    "name": "Procalcitonin",
+    "aliases": [],
+    "category": "Inflammation",
+    "unit": "ng/mL"
+  },
+  {
+    "name": "Lactate Dehydrogenase",
+    "aliases": [
+      "LDH"
+    ],
+    "category": "Metabolic",
+    "unit": "U/L"
+  },
+  {
+    "name": "Amylase",
+    "aliases": [
+      "Serum Amylase"
+    ],
+    "category": "Pancreas",
+    "unit": "U/L"
+  },
+  {
+    "name": "Lipase",
+    "aliases": [
+      "Serum Lipase"
+    ],
+    "category": "Pancreas",
+    "unit": "U/L"
+  },
+  {
+    "name": "HBsAg (Hepatitis B Surface Antigen)",
+    "aliases": [
+      "HBsAg"
+    ],
+    "category": "Serology",
+    "unit": "Reactive/Non-reactive"
+  },
+  {
+    "name": "Anti-HCV",
+    "aliases": [
+      "HCV Ab"
+    ],
+    "category": "Serology",
+    "unit": "Reactive/Non-reactive"
+  },
+  {
+    "name": "HIV 1/2 Antibody",
+    "aliases": [
+      "HIV Ab"
+    ],
+    "category": "Serology",
+    "unit": "Reactive/Non-reactive"
+  },
+  {
+    "name": "Prostate Specific Antigen",
+    "aliases": [
+      "PSA"
+    ],
+    "category": "Tumor Marker",
+    "unit": "ng/mL"
+  },
+  {
+    "name": "CA-125",
+    "aliases": [],
+    "category": "Tumor Marker",
+    "unit": "U/mL"
+  },
+  {
+    "name": "CEA",
+    "aliases": [
+      "Carcinoembryonic Antigen"
+    ],
+    "category": "Tumor Marker",
+    "unit": "ng/mL"
+  },
+  {
+    "name": "Cortisol",
+    "aliases": [],
+    "category": "Hormones",
+    "unit": "mcg/dL"
+  },
+  {
+    "name": "Prolactin",
+    "aliases": [],
+    "category": "Hormones",
+    "unit": "ng/mL"
+  },
+  {
+    "name": "Testosterone",
+    "aliases": [],
+    "category": "Hormones",
+    "unit": "ng/dL"
+  },
+  {
+    "name": "Estradiol (E2)",
+    "aliases": [
+      "E2"
+    ],
+    "category": "Hormones",
+    "unit": "pg/mL"
+  },
+  {
+    "name": "Urea",
+    "aliases": [
+      "Serum Urea",
+      "Blood Urea"
+    ],
+    "category": "Kidney",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Absolute Neutrophil Count",
+    "aliases": [
+      "ANC",
+      "Neutrophils Absolute"
+    ],
+    "category": "CBC",
+    "unit": "cells/mcL"
+  },
+  {
+    "name": "Absolute Lymphocyte Count",
+    "aliases": [
+      "ALC",
+      "Lymphocytes Absolute"
+    ],
+    "category": "CBC",
+    "unit": "cells/mcL"
+  },
+  {
+    "name": "Absolute Eosinophil Count",
+    "aliases": [
+      "AEC",
+      "Eosinophils Absolute"
+    ],
+    "category": "CBC",
+    "unit": "cells/mcL"
+  },
+  {
+    "name": "Plateletcrit",
+    "aliases": [
+      "PCT (Plateletcrit)"
+    ],
+    "category": "Platelets",
+    "unit": "%"
+  },
+  {
+    "name": "High-Sensitivity C-Reactive Protein",
+    "aliases": [
+      "hs-CRP",
+      "High Sensitivity CRP"
+    ],
+    "category": "Inflammation",
+    "unit": "mg/L"
+  },
+  {
+    "name": "Non-HDL Cholesterol",
+    "aliases": [
+      "Non HDL Cholesterol",
+      "Non-HDL"
+    ],
+    "category": "Lipids",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Glucose, Random",
+    "aliases": [
+      "Random Glucose",
+      "Random Blood Sugar",
+      "RBS"
+    ],
+    "category": "Diabetes",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Estimated Glomerular Filtration Rate",
+    "aliases": [
+      "eGFR",
+      "GFR Estimated"
+    ],
+    "category": "Kidney",
+    "unit": "mL/min/1.73m2"
+  },
+  {
+    "name": "Reticulocyte Count",
+    "aliases": [
+      "Reticulocytes",
+      "Retic"
+    ],
+    "category": "CBC",
+    "unit": "%"
+  }
+]

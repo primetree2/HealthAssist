@@ -1,0 +1,109 @@
+{
+  "checks": [
+    {
+      "name": "backend capabilities reached",
+      "pass": true
+    },
+    {
+      "name": "intake no overflow at 320",
+      "pass": true
+    },
+    {
+      "name": "intake no overflow at 390",
+      "pass": true
+    },
+    {
+      "name": "intake no overflow at 768",
+      "pass": true
+    },
+    {
+      "name": "intake no overflow at 1024",
+      "pass": true
+    },
+    {
+      "name": "intake no overflow at 1920",
+      "pass": true
+    },
+    {
+      "name": "sample gives eight retained observations",
+      "pass": true
+    },
+    {
+      "name": "converted glucose visible",
+      "pass": true
+    },
+    {
+      "name": "outside filter only two rows",
+      "pass": true
+    },
+    {
+      "name": "summary is not filtered",
+      "pass": true
+    },
+    {
+      "name": "report no overflow at 320",
+      "pass": true
+    },
+    {
+      "name": "report no overflow at 390",
+      "pass": true
+    },
+    {
+      "name": "report no overflow at 768",
+      "pass": true
+    },
+    {
+      "name": "report no overflow at 1024",
+      "pass": true
+    },
+    {
+      "name": "report no overflow at 1440",
+      "pass": true
+    },
+    {
+      "name": "report no overflow at 1920",
+      "pass": true
+    },
+    {
+      "name": "correction no overflow at 390",
+      "pass": true
+    },
+    {
+      "name": "correction recomputes outside count",
+      "pass": true
+    },
+    {
+      "name": "saved report visible",
+      "pass": true
+    },
+    {
+      "name": "privacy dialog visible",
+      "pass": true
+    },
+    {
+      "name": "print shows all rows independent of filter",
+      "pass": true
+    },
+    {
+      "name": "malformed response safe error",
+      "pass": true
+    },
+    {
+      "name": "symptom draft survives failure",
+      "pass": true
+    },
+    {
+      "name": "no blank UI",
+      "pass": true
+    },
+    {
+      "name": "unreadable scan not all clear",
+      "pass": true
+    },
+    {
+      "name": "no browser runtime errors",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

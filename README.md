@@ -1,102 +1,152 @@
-# Health Assist 2
+# HealthAssist 2.0 — unified, evidence-first health briefs
 
-### Your health, in context.
+A source-code merge of HealthAssist and the Blood Report Analyzer, rebuilt around **extract → verify → compare with the report → prepare for a clinician conversation**.
 
-A rebuilt, **local-first health journal and lab companion**, not an LLM diagnosis wrapper. A complete Next.js/TypeScript application designed for Vercel, with no database provisioning or paid API required.
+**This is a tested engineering prototype, not a clinically validated medical device or a universal report parser.** A production deployment still needs representative-report validation, clinician review, privacy/legal review, monitoring, and a live deployment smoke test.
 
-> **Educational portfolio prototype. Not medical advice, a diagnostic system, an emergency service, or a validated medical device.** Do not use it to decide that someone is safe, diagnose disease, or change treatment. It is intended for adults organizing their own observations. See [Safety](docs/SAFETY.md).
+## What changed
 
-## Run in three commands
+- One React + TypeScript interface and one FastAPI backend, using same-origin `/api` routes.
+- Retained aurora effects, with calm light/dark/system themes, responsive layouts, readable result cards, reduced motion, keyboard navigation, and safe error states.
+- Digital PDF tables and text, coordinate-derived columns, fallback PDF text extraction, scanned documents via optional consented cloud transcription, delimited files, spreadsheets, DOCX, structured JSON, and a conservative FHIR adapter.
+- Exact analyte aliases instead of forced fuzzy/semantic matches. Ambiguity is visible, not converted to a confidence percentage.
+- Original results, comparators, units, laboratory intervals, qualitative findings, source snippets, page/row/table/sheet provenance, and repeated observations are retained.
+- Explicit analyte-aware conversions. No unknown unit is silently replaced with a canonical unit.
+- Arithmetic compares values against the **interval on that report, in the report’s units**. No unsourced adult reference ranges are substituted.
+- Extreme observations are not discarded just for being extreme. Invalid or uncertain values stay visible for correction.
+- Scanned/cloud-extracted rows are withheld from interpretation until checked by the user.
+- Row corrections are validated and recomputed on the backend. Printed flag conflicts remain reviewable even after a user checks a row.
+- Optional Google Gemini explanation uses structured facts and validates evidence IDs. No model or OCR engine downloads at startup.
+- No server-side report history. Explicit local saving, deletion, CSV/JSON export, and a selectable-text print/PDF brief with **all observations**, independent of active filters.
+- Bounded uploads/inputs, safe errors, no-store API responses, source-size limits, Office-container checks, request limits, and a shared cloud-spend quota option.
+- Heavy ML dependencies, original database scaffolding, deprecated AI SDK, CDN scripts, and embedded credentials are not carried into this version.
 
-Requires Node.js 22+ and npm. Recommended: Node 22 LTS. Use a current browser with Web Crypto, IndexedDB and Web Locks. Localhost is a secure context; public deployments need HTTPS.
+## Quick start
 
-```sh
-npm ci
-npm run dev
-# Open http://localhost:3000
+Prerequisites: **Python 3.13**, **Node 22.12+** (Node 22 LTS recommended).
+
+```bash
+# From the repository root
+python3.13 -m venv .venv
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+pip install -r requirements-dev.txt
+npm --prefix frontend ci --ignore-scripts
 ```
 
-No `.env` values are required. Click **Explore with fictional data** for a polished demo without creating a journal. Demo edits disappear on refresh. For persistent records, create a journal with a strong passphrase (12–256 characters). Do not use sensitive real health data to evaluate this unreviewed prototype.
+Terminal 1:
 
-## What actually works
-
-- **Longitudinal journal:** dated symptom observations, personal intensity ratings, notes, required warning-sign acknowledgment, unified searchable timeline, per-entry deletion.
-- **History-informed outputs:** recurrence counts on distinct days within a rolling 30-day window; visit questions grounded in those counts and your latest report entries. No fabricated associations.
-- **Lab notebook:** six explicitly supported tests, exact alias mapping, test-specific units, two-sided report-bound comparisons, unit-scaled changes, blocked ambiguous comparisons, provenance labels, original values retained.
-- **Reviewable CSV import:** strict header, quoted fields, bounded size/row count, exact numeric parsing, atomic validation, duplicate protection, full preview and required human confirmation. No fuzzy matching or silent dropping of rows.
-- **Private browser vault:** AES-256-GCM authenticated encryption, PBKDF2-SHA-256 derivation, non-extractable in-memory key, IndexedDB ciphertext, background/idle lock, exclusive multi-tab locking, encrypted backup/restore, destructive action confirmation.
-- **Visit preparation:** deterministic questions, preview, portable plaintext export with privacy warning. Not a generated clinical summary.
-- **Intentional UI:** calm editorial typography, petrol/olive visual system, warm surfaces, responsive desktop/mobile layouts, dark-mode support, keyboard focus, reduced-motion support, source and safety pages. Soft CSS-only aurora accents preserve the original visual identity without animating data-entry surfaces.
-- **Small server boundary:** read-only `/api/health` and versioned `/api/catalog` endpoints. Journal content never goes to an app API, model, analytics provider or remote database.
-
-## Deliberate scope boundaries
-
-**No chat model, automatic PDF/OCR extraction, authentication service, cloud sync, drug advice, diagnosis ranking, risk scoring, clinical urgency classifier, or medical threshold database.** These are not hidden “coming soon” stubs. The old blood-report analyzer's _workflow_ is integrated; its unsafe matching and default-reference code is not reused. PDF support would require extraction/review UX and a validation corpus before it deserves trust.
-
-Only hemoglobin, glucose, white blood cells, platelets, creatinine and HbA1c are accepted. Supported units are listed in-app. Results with `<`, `>`, qualitative values, one-sided limits and unsupported units must not be stripped or relabeled to fit. Use the original report with a clinician instead.
-
-## Project map
-
-```text
-app/                    Next App Router, CSS, metadata, two read-only APIs
-components/             Workspace orchestration, feature forms and UI primitives
-lib/catalog.ts          Versioned exact aliases, dimensional factors, sources
-lib/schema.ts           Zod boundary validation and schema version
-lib/engine.ts           Pure deterministic longitudinal/lab functions
-lib/csv.ts              Strict bounded CSV pipeline
-lib/vault.ts            Authenticated encryption, IndexedDB, Web Locks
-lib/demo.ts             Explicitly fictional, date-relative sample records
-tests/                  Node test runner: domain/validation/crypto regressions
-e2e/                    Playwright + axe: desktop/mobile workflows and a11y
-docs/                   Product plan, audit, architecture, safety, deployment
+```bash
+uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-Feature forms, data settings, source content, and shared UI primitives are separate modules; the workspace orchestrates navigation and journal lifecycle. Domain and security code remains independent and tested. This is a personal application, not a production-scale multi-team architecture.
+Terminal 2:
 
-## Quality commands
-
-```sh
-npm run check            # lint, strict TypeScript, unit tests, production build
-npx playwright install chromium
-npm run test:e2e         # starts production server; run build first
-npm audit               # includes development dependencies
-npm run sources:check   # URL availability only, not clinical content review
+```bash
+npm --prefix frontend run dev
 ```
 
-If using an installed browser: `CHROMIUM_PATH=/absolute/path/to/chromium npm run test:e2e`. Test harness runs 1440px desktop and 390px mobile Chromium. See [testing](docs/TESTING.md) for the observed results and limitations.
+Open **http://localhost:5173**. Vite proxies `/api` to the Python service. Do not open the HTML file directly and do not run only the frontend if you want extraction to work.
+
+No API key is needed for digital/structured extraction, report-relative arithmetic, editing, or the standard clinician questions. The “Explore a sample report” button processes synthetic CSV data through the actual API; it does not fabricate a response.
+
+### Optional local cloud processing
+
+Copy `.env.example` to `.env`, fill in only the settings you want, and start:
+
+```bash
+uvicorn backend.app.main:app --reload --env-file .env --port 8000
+```
+
+`python-dotenv` is a development dependency for the `--env-file` option. Production reads environment variables supplied by the host. **Never use `VITE_*` variables for secrets.**
+
+## Supported inputs and honest limits
+
+| Input | Method | Important limitation |
+|---|---|---|
+| Digital PDF | Table lines, coordinate/text table fallback, anchored text, pypdf text fallback | PDF up to 15 pages; unusual reading order or multiple interval columns may need correction. |
+| Scanned/mixed PDF | Optional Google Gemini transcription | Cloud consent + configured model required; up to 8 pages for OCR. OCR is probabilistic and rows require checking. |
+| PNG / JPEG / WebP | Signature/image validation, metadata-stripping re-encode, optional cloud transcription | Up to 16 megapixels; one frame; cannot transcribe without consented cloud processing. |
+| TXT | UTF-8/UTF-16, anchored names and values, column headers | Primarily English laboratory names. Unknown/unparsed lines are exposed for review. |
+| CSV / TSV | Quoted delimited columns, common header aliases | Preserve name/result/unit/interval columns. Decimal commas require checking. |
+| XLSX | Read-only, cached cell values, up to 8 sheets | No macro-enabled/legacy XLS; formulas are not calculated; 5,000 rows and 40 columns per sheet. |
+| DOCX | Secure XML, table cells and direct body paragraphs | Embedded images are not automatically OCR’d; export those pages to an image/PDF. |
+| Observation JSON | Validated observation objects | Schema below; not arbitrary JSON. |
+| FHIR JSON | Observation, components, Bundle entries, inline DiagnosticReport-contained observations | No remote patient-record fetches. Multiple subjects/ranges require verification. Not a complete FHIR validator. |
+
+**Not guaranteed:** handwriting, every language, every lab’s layout, low-resolution scans, novel assays, password-protected PDFs, malformed documents, multiple people in one report, or reference intervals expressed as complex clinical algorithms.
+
+Limits: 4,000,000 file bytes; 4,300,000 total request bytes; 300 observations; 150,000 extracted text characters; 20,000 pasted-text characters; 4,000 symptom characters. Large reports need splitting or a future direct-to-private-storage + asynchronous-worker workflow.
+
+A failed or partial extraction is never an “all normal” conclusion. Review the extraction notes and original report.
+
+## Structured JSON example
+
+```json
+[
+  {
+    "name": "Hemoglobin",
+    "result": "140",
+    "unit": "g/L",
+    "reference_text": "120–160",
+    "flag": "",
+    "report_date": "2026-10-01"
+  },
+  {
+    "name": "HBsAg",
+    "result": "Non-reactive",
+    "unit": "",
+    "reference_text": "Non-reactive"
+  }
+]
+```
+
+`result` is a string, preserving `<`, `>`, qualitative values, and decimal formatting. The full brief exported by the UI is an archival API-response object, not this import schema; its observations include nested `raw` fields.
+
+## Tests and production build
+
+```bash
+pytest -q
+npm --prefix frontend run check
+npm --prefix frontend run build
+npm --prefix frontend run preview
+```
+
+See `docs/VALIDATION.md` for the executed checks and boundaries of the test evidence. Test fixtures are synthetic; no real medical records are included.
 
 ## Deploy to Vercel
 
-1. Commit **the contents of this directory** to a new GitHub repository. Do not upload `node_modules`, `.next`, screenshots or the original archives.
-2. Import it into Vercel. Framework: **Next.js**. Root directory: repository root (or this project folder if nested).
-3. Node.js: **22.x** (24.x also supported). Install: `npm ci`. Build: `npm run build`. Output directory: **leave at framework default**.
-4. No environment secrets or database integrations. Deploy and test on its HTTPS preview URL.
-5. Run the acceptance checklist in [deployment](docs/DEPLOYMENT.md) before advertising it as a demo.
+See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**. Import the **repository root**, not just `frontend/`. The root `vercel.json` explicitly selects Vite, builds the static app, bundles `api/index.py` plus the Python backend, and rewrites `/api/*` to the function. Python 3.13 is selected in `.python-version`.
 
-The same browser uses a different IndexedDB store on each origin: localhost, each Vercel preview hostname, production `vercel.app`, and a custom domain do **not** share records. Back up before changing domains.
+Digital processing works without cloud settings. On Vercel, optional cloud features remain **disabled until shared rate limiting and the API/model are configured**.
 
-## Recruiter demo (about 4 minutes)
+## Project layout
 
-1. Open fictional demo → explain what every number is based on.
-2. Timeline → search fatigue → show distinct-day recurrence, not a diagnosis.
-3. Add a lab result → use a report-bound interval → demonstrate an unsupported CSV unit being rejected.
-4. Visit notes → explain which facts produced each question.
-5. Read the pure engine and tests → show unit conversion, same-day ambiguity, zero denominators and tamper detection.
-6. Create a disposable vault → save a test observation → reload/unlock → show ciphertext in IndexedDB and no PHI request in Network.
+```text
+api/index.py                 Vercel ASGI function entry
+backend/app/main.py          validated API endpoints
+backend/app/extraction.py    bounded multi-format extraction
+backend/app/parsing.py       table/text strategies + deduplication
+backend/app/fhir.py          conservative structured-record adapter
+backend/app/numbers.py       numeric, comparator, interval and unit arithmetic
+backend/app/interpretation.py report-relative classifications and limitations
+backend/app/catalog.py      exact alias matching
+backend/app/cloud.py        opt-in provider integration
+backend/app/security.py     body limits, response headers, request/spend limits
+frontend/src/               responsive React interface
+frontend/public/samples/    synthetic demonstration data
+tests/                     reproducible synthetic regression tests
+docs/                      deployment, validation and security notes
+```
 
-**Defensible engineering story:** explicit invariants, conservative failure modes, deterministic logic, provenance, encrypted local persistence, race protection, CI, accessibility and honest limitations. No claim of novel medical science or production compliance.
+## Important clinical and privacy boundaries
 
-## Documentation
+The software does **not** determine a diagnosis, prescribe, rule out disease, apply clinically validated critical-value thresholds, or decide that urgent care is unnecessary. The urgent-symptom checkbox is an explicit warning mechanism, not a triage classifier. Printed critical flags are surfaced without pretending the app can assess their urgency.
 
-- [Product and phased rebuild plan](docs/PLAN.md)
-- [Original project audit and migration decisions](docs/AUDIT.md)
-- [Architecture and algorithms](docs/ARCHITECTURE.md)
-- [Security model and privacy](docs/SECURITY.md)
-- [Safety and intended use](docs/SAFETY.md)
-- [Sources and update procedure](docs/SOURCES.md)
-- [Aurora design and motion](docs/DESIGN.md)
-- [Testing and QA](docs/TESTING.md)
-- [Deployment and operations](docs/DEPLOYMENT.md)
-- [Contributing](CONTRIBUTING.md) · [Credits](docs/CREDITS.md)
+No application-level server history is implemented. Hosting/provider operational logging and provider data policies still matter. Local saving is opt-in and **not encrypted by this app**. Use appropriate contracts and organizational controls before processing real patient records. Neither HIPAA, GDPR nor any other compliance certification is claimed.
 
-No real-user data or credentials are included. The original repository contained an apparent credential in a commented line; revoke/rotate it and review the original Git history. That credential and the original code archives are deliberately excluded from this handoff.
+The original HealthAssist archive contained an API-key-like string. **Rotate it if genuine, even though it is absent from this clean merge.** Deleting a line from a new version does not revoke an old credential.
+
+## Credits and licensing
+
+Original projects supplied by the user; HealthAssist’s existing MIT license is retained. The original blood-analyzer archive had no license file: confirm reuse rights before redistribution. The migrated catalog retains names/aliases/units but deliberately removes the old unsourced disease associations, medication groups and default ranges. PyMuPDF and the heavyweight semantic-model stack are not dependencies in this merge. Review all third-party licenses and report rights before release; see `docs/SECURITY.md`.

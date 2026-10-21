@@ -1,0 +1,9 @@
+Test,Result,Unit,Reference Range,Flag
+Hemoglobin,10.8,g/dL,12.0 - 15.5,L
+White Blood Cell Count,6.2,10^9/L,4.0 - 11.0,
+Platelet Count,245,10^9/L,150 - 450,
+Ferritin,14,ng/mL,15 - 150,L
+Fasting Plasma Glucose,5.2,mmol/L,4.0 - 6.0,
+Vitamin B12,340,pg/mL,200 - 900,
+C-Reactive Protein,<5,mg/L,<5,
+HBsAg,Non-reactive,,Non-reactive,
