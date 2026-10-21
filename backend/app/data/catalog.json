@@ -3,7 +3,8 @@
     "name": "Hemoglobin",
     "aliases": [
       "Hb",
-      "HGB"
+      "HGB",
+      "Hemoglobin (Hb)"
     ],
     "category": "CBC",
     "unit": "g/dL"
@@ -22,7 +23,8 @@
     "name": "Red Blood Cell Count",
     "aliases": [
       "RBC",
-      "Erythrocyte Count"
+      "Erythrocyte Count",
+      "Red Blood Cell (RBC) Count"
     ],
     "category": "CBC",
     "unit": "million/mcL"
@@ -30,7 +32,8 @@
   {
     "name": "Mean Corpuscular Volume",
     "aliases": [
-      "MCV"
+      "MCV",
+      "Mean Corpuscular Volume (MCV)"
     ],
     "category": "CBC",
     "unit": "fL"
@@ -38,7 +41,8 @@
   {
     "name": "Mean Corpuscular Hemoglobin",
     "aliases": [
-      "MCH"
+      "MCH",
+      "Mean Corpuscular Hemoglobin (MCH)"
     ],
     "category": "CBC",
     "unit": "pg"
@@ -46,7 +50,8 @@
   {
     "name": "Mean Corpuscular Hb Concentration",
     "aliases": [
-      "MCHC"
+      "MCHC",
+      "Mean Corpuscular Hb Concentration (MCHC)"
     ],
     "category": "CBC",
     "unit": "g/dL"
@@ -55,7 +60,8 @@
     "name": "Red Cell Distribution Width",
     "aliases": [
       "RDW",
-      "RDW-CV"
+      "RDW-CV",
+      "Red Cell Distribution Width (RDW-CV)"
     ],
     "category": "CBC",
     "unit": "%"
@@ -66,7 +72,8 @@
       "TLC",
       "WBC",
       "White Blood Cell Count",
-      "Leucocyte Count"
+      "Leucocyte Count",
+      "Total Leucocyte Count (TLC)"
     ],
     "category": "CBC",
     "unit": "cells/mcL"
@@ -122,7 +129,8 @@
   {
     "name": "Mean Platelet Volume",
     "aliases": [
-      "MPV"
+      "MPV",
+      "Mean Platelet Volume (MPV)"
     ],
     "category": "Platelets",
     "unit": "fL"
@@ -131,7 +139,8 @@
     "name": "Alanine Aminotransferase",
     "aliases": [
       "ALT",
-      "SGPT"
+      "SGPT",
+      "Alanine Amino-transferase (ALT) SGPT"
     ],
     "category": "Liver",
     "unit": "U/L"
@@ -140,7 +149,8 @@
     "name": "Aspartate Aminotransferase",
     "aliases": [
       "AST",
-      "SGOT"
+      "SGOT",
+      "Aspartate Aminotransferase (AST) SGOT"
     ],
     "category": "Liver",
     "unit": "U/L"
@@ -148,7 +158,8 @@
   {
     "name": "Alkaline Phosphatase",
     "aliases": [
-      "ALP"
+      "ALP",
+      "Alkaline Phosphatase (ALP)"
     ],
     "category": "Liver",
     "unit": "U/L"
@@ -191,7 +202,8 @@
     "name": "Albumin:Globulin Ratio",
     "aliases": [
       "A/G Ratio",
-      "A:G Ratio"
+      "A:G Ratio",
+      "Albumin : Globulin Ratio (A:G Ratio)"
     ],
     "category": "Liver",
     "unit": "Ratio"
@@ -200,7 +212,8 @@
     "name": "Gamma-Glutamyl Transferase",
     "aliases": [
       "GGT",
-      "Gamma GT"
+      "Gamma GT",
+      "Gamma Glutamyl Transferase (GGT)"
     ],
     "category": "Liver",
     "unit": "U/L"
@@ -432,7 +445,8 @@
   {
     "name": "Vitamin B12",
     "aliases": [
-      "Cobalamin"
+      "Cobalamin",
+      "Vitamin B12 (Cyanocobalamin)"
     ],
     "category": "Vitamins",
     "unit": "pg/mL"
@@ -499,7 +513,8 @@
   {
     "name": "C-Reactive Protein",
     "aliases": [
-      "CRP"
+      "CRP",
+      "C-Reactive Protein (CRP), Quantitative"
     ],
     "category": "Inflammation",
     "unit": "mg/L"
@@ -508,7 +523,8 @@
     "name": "Erythrocyte Sedimentation Rate",
     "aliases": [
       "ESR",
-      "Sed Rate"
+      "Sed Rate",
+      "Erythrocyte Sedimentation Rate (ESR)"
     ],
     "category": "Inflammation",
     "unit": "mm/hr"
@@ -718,5 +734,30 @@
     ],
     "category": "CBC",
     "unit": "%"
+  },
+  {
+    "name": "Absolute Monocyte Count",
+    "aliases": [
+      "Monocytes Absolute"
+    ],
+    "category": "CBC",
+    "unit": "cells/mcL"
+  },
+  {
+    "name": "Absolute Basophil Count",
+    "aliases": [
+      "Basophils Absolute"
+    ],
+    "category": "CBC",
+    "unit": "cells/mcL"
+  },
+  {
+    "name": "Bilirubin, Indirect",
+    "aliases": [
+      "Indirect Bilirubin",
+      "Unconjugated Bilirubin"
+    ],
+    "category": "Liver",
+    "unit": "mg/dL"
   }
 ]

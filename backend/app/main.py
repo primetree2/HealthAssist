@@ -16,7 +16,7 @@ from .security import SecurityMiddleware, check_rate, shared_ready
 
 app = FastAPI(
     title="HealthAssist",
-    version="2.0.0",
+    version="2.0.3",
     docs_url=None if os.getenv("VERCEL") else "/api/docs",
     redoc_url=None,
     openapi_url=None if os.getenv("VERCEL") else "/api/openapi.json",
@@ -82,7 +82,7 @@ def health():
     available = cloud_ready() and (not os.getenv("VERCEL") or shared_ready())
     return {
         "status": "ok",
-        "version": "2.0.0",
+        "version": app.version,
         "cloud_available": available,
         "max_file_bytes": MAX_FILE,
         "max_pdf_pages": 15,

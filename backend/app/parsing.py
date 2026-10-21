@@ -40,6 +40,9 @@ HEADER_KEYS = {
         "referenceinterval",
         "biologicalreference",
         "biologicalrefrange",
+        "biorefrange",
+        "biorefinterval",
+        "biologicalrefinterval",
         "labinterval",
         "normalrange",
         "normalvalue",
@@ -56,8 +59,12 @@ HEADER_KEYS = {
 }
 HEADER_MAP = {a: k for k, vals in HEADER_KEYS.items() for a in vals}
 SKIP = re.compile(
-    r"^(?:name\s*:|patient\s*(?:name|id)|age\s*:|sex\s*:|gender\s*:|report\s*(?:date|id|no)|sample\s*(?:id|no|date)|page\s*\d|method\s*:|collected\s*:|received\s*:|printed\s*:|address\s*:|phone\s*:|mobile\s*:|consultant\s*:|referred\s*:|reference\s*:|end of report|note\s*:)",
+    r"^(?:name\s*:|patient\s*(?:information|name|id)|age(?:\s*/\s*gender)?\s*:|sex\s*:|gender\s*:|report\s*(?:date|id|no|status)|sample\s*(?:id|no|date)|specimen\s*information|client(?:\s*/\s*doctor)?\s*(?:information|code|name|no|add)|visit\s*id|uhid\s*:|ip\s*/\s*op|page\s*\d|method\s*:|collected\s*:|received\s*:|reported\s*:|printed\s*:|address\s*:|phone\s*:|mobile(?:\s*no\.?)?\s*:|consultant\s*:|referred\s*:|ref\s*doctor|reference\s*:|end of report|note\s*:)",
     re.I,
+)
+NARRATIVE_WARNING = (
+    "Narrative laboratory comments or interpretive guidance are present. "
+    "Read them in the original report; they are not classified as measured test results."
 )
 FLAG_RE = re.compile(r"\s+(HH|LL|H|L|HIGH|LOW|CRITICAL|PANIC|ABNORMAL|\*)\s*$", re.I)
 
@@ -129,8 +136,18 @@ def split_result_cell(cell: str):
     return result, tail
 
 
-def parse_rows(rows, acc: ParseAccumulator, kind="table", page=None, section=""):
-    segments = []
+def parse_rows(
+    rows,
+    acc: ParseAccumulator,
+    kind="table",
+    page=None,
+    section="",
+    initial_segments=None,
+):
+    # A PDF header may be a separate ruled table from its measurement rows.
+    # Only the PDF geometry validator supplies inherited column mappings.
+    segments = initial_segments or []
+    panel = ""
     for rowno, row in enumerate(rows, 1):
         if rowno > 20000:
             acc.warnings.append("Row limit reached; remaining rows were not processed.")
@@ -139,6 +156,14 @@ def parse_rows(rows, acc: ParseAccumulator, kind="table", page=None, section="")
         if not any(row):
             continue
         headers = header_segments(row)
+        nonempty = [cell for cell in row if cell]
+        if len(nonempty) == 1 and re.match(
+            r"^(?:absolute|differential)\s+(?:leucocyte|leukocyte|white blood cell)\s+count",
+            nonempty[0],
+            re.I,
+        ):
+            panel = nonempty[0]
+            continue
         if headers:
             segments = headers
             continue
@@ -152,7 +177,10 @@ def parse_rows(rows, acc: ParseAccumulator, kind="table", page=None, section="")
                     else:
                         segments_for_row[0]["unit"] = 2
                 if len(row) >= 4:
-                    segments_for_row[0]["reference_text"] = 3
+                    if "reference_text" in segments_for_row[0]:
+                        segments_for_row[0]["unit"] = 3
+                    else:
+                        segments_for_row[0]["reference_text"] = 3
             else:
                 if any(re.search(r"\d", c) for c in row) and not SKIP.search(
                     " ".join(row)
@@ -173,6 +201,14 @@ def parse_rows(rows, acc: ParseAccumulator, kind="table", page=None, section="")
             # Multi-line table cells: only align them when lengths are provably equal.
             names = fields["name"].splitlines()
             vals = fields["result"].splitlines()
+            if (
+                len(names) > 1
+                and len(vals) == 1
+                and match_name(" ".join(names))[1] == "exact"
+            ):
+                # A wrapped test name is not a set of misaligned measurements.
+                fields["name"] = " ".join(names)
+                names = [fields["name"]]
             if len(names) > 1 or len(vals) > 1:
                 if len(names) == len(vals):
                     for j, (name, val) in enumerate(zip(names, vals)):
@@ -214,7 +250,7 @@ def parse_rows(rows, acc: ParseAccumulator, kind="table", page=None, section="")
                     page=page,
                     source_kind=kind,
                     source_row=rowno,
-                    source_section=section,
+                    source_section=" / ".join(x for x in (section, panel) if x),
                     source_text=" | ".join(row),
                     issues=["Multi-line table columns could not be aligned reliably."],
                 )
@@ -241,10 +277,88 @@ def parse_rows(rows, acc: ParseAccumulator, kind="table", page=None, section="")
                 page=page,
                 source_kind=kind,
                 source_row=rowno,
-                source_section=section,
+                source_section=" / ".join(x for x in (section, panel) if x),
                 source_text=" | ".join(row),
                 issues=issues,
             )
+
+
+def parse_pdf_tables(page, acc: ParseAccumulator, pageno: int):
+    """Reuse separated headers only when the actual column geometry agrees.
+
+    Return the regions owned by table parsing so the free-text fallback cannot
+    generate a second, differently mapped copy of those observations.
+    """
+    tables = page.find_tables(
+        table_settings={"vertical_strategy": "lines", "horizontal_strategy": "lines"}
+    )
+    if not tables:
+        tables = page.find_tables(
+            table_settings={
+                "vertical_strategy": "text",
+                "horizontal_strategy": "text",
+                "min_words_vertical": 2,
+                "min_words_horizontal": 1,
+            }
+        )
+    templates = []
+    owned = []
+    for tableindex, table in enumerate(tables, 1):
+        rows = table.extract()
+        local_headers = []
+        for i, row in enumerate(rows):
+            segments = header_segments(row)
+            cells = table.rows[i].cells
+            if segments and all(c is not None for c in cells):
+                bounds = [(c[0], c[2]) for c in cells]
+                templates.append((table.bbox[1], bounds, segments))
+                local_headers = segments
+        inherited = None
+        # Merged section/comment rows do not define a column grid.
+        grid = next(
+            (
+                [(c[0], c[2]) for c in r.cells]
+                for r in table.rows
+                if len(r.cells) >= 2 and all(c is not None for c in r.cells)
+            ),
+            None,
+        )
+        if not local_headers and grid:
+            tolerance = max(4.0, page.width * 0.025)
+            for header_top, bounds, segments in reversed(templates):
+                if header_top > table.bbox[1] or len(bounds) != len(grid):
+                    continue
+                if all(
+                    abs(a - b) <= tolerance
+                    for old, new in zip(bounds, grid)
+                    for a, b in zip(old, new)
+                ):
+                    inherited = segments
+                    break
+        before = len(acc.items)
+        parse_rows(
+            rows,
+            acc,
+            "table",
+            pageno,
+            f"Table {tableindex}",
+            initial_segments=inherited,
+        )
+        if local_headers or inherited or len(acc.items) > before:
+            owned.append(table.bbox)
+        narrative = any(
+            re.search(
+                r"\binterpretation\s*:|\bsmear\b|\b[RW]BCs\s*:", str(c or ""), re.I
+            )
+            for row in rows
+            for c in row
+        )
+        if narrative:
+            if NARRATIVE_WARNING not in acc.warnings:
+                acc.warnings.append(NARRATIVE_WARNING)
+            # A narrative-only ruled box is not a new measurement table.
+            owned.append(table.bbox)
+    return owned
 
 
 def parse_text(text, acc: ParseAccumulator, page=None, kind="text"):
@@ -262,6 +376,10 @@ def parse_text(text, acc: ParseAccumulator, page=None, kind="text"):
     for rowno, line in enumerate(lines, 1):
         line = line.strip()
         if not line or len(line) > 1200 or SKIP.search(line):
+            continue
+        if re.match(r"^interpretation\s*:", line, re.I):
+            if NARRATIVE_WARNING not in acc.warnings:
+                acc.warnings.append(NARRATIVE_WARNING)
             continue
         # Column/header path above owns these lines to avoid a second conflicting parse.
         if has_header and len(re.split(r"\t+|\s{2,}|\s*\|\s*", line)) > 1:
@@ -345,7 +463,7 @@ def deduplicate(items: list[RawObservation]):
     merged = []
     index = defaultdict(list)
     for item in items:
-        entry, _ = match_name(item.name)
+        entry, _ = match_name(item.name, item.unit, item.source_section)
         key = (
             item.page,
             normalize_name(entry["name"] if entry else item.name),

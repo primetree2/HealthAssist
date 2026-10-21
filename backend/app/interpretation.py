@@ -27,7 +27,7 @@ DESCRIPTIONS = {
 
 
 def interpret(raw: RawObservation, index: int, repeated=False):
-    entry, name_match = match_name(raw.name)
+    entry, name_match = match_name(raw.name, raw.unit, raw.source_section)
     n = parse_number(raw.result)
     issues = list(raw.issues)
     blocking = []
@@ -144,7 +144,7 @@ def build_analysis(
     )
     keys = []
     for row in raws:
-        e, _ = match_name(row.name)
+        e, _ = match_name(row.name, row.unit, row.source_section)
         keys.append(normalize_name(e["name"] if e else row.name))
     counts = Counter(keys)
     observations = [

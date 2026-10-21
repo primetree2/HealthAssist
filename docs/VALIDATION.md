@@ -2,11 +2,17 @@
 
 This is an implementation test record, not clinical validation or a guarantee of universal report compatibility.
 
+## Parser patch 2.0.3
+
+The backend suite was rerun after the PDF parser fix: **138 tests passed**, including 23 new synthetic layout, metadata-exclusion, contextual differential-count and API regressions. The supplied digital PDF was also processed locally through the API, without cloud processing. The personal PDF and its extracted contents are not included in this project or test fixtures.
+
+Browser, accessibility, contrast, print and dependency-audit records below are earlier baseline checks; this patch does not change UI behavior or dependency versions. A successful deployment of the preceding fixes was subsequently reported by the owner, not independently audited here. Deploy and smoke-test 2.0.3 separately.
+
 ## Executed checks
 
 | Area | Result | Scope |
 | --- | --- | --- |
-| Backend regression suite | 115 passed | Parsing, units, comparator intervals, qualitative results, unknown/duplicate/conflicting observations, FHIR, file limits, consent, safe errors, cloud failure recovery and verification requirements |
+| Backend regression suite | 138 passed | Parsing, units, comparator intervals, qualitative results, unknown/duplicate/conflicting observations, FHIR, file limits, consent, safe errors, cloud failure recovery and verification requirements |
 | Browser integration checks | 26 passed; no page errors | Actual local frontend/API integration, sample report, correction/recheck, filters, saving/restoring, error recovery and empty scans |
 | Responsive layouts | No horizontal overflow in checked states | Viewports 320, 390, 768, 1024, 1440 and 1920 pixels wide; not every device/browser combination |
 | Automated accessibility | 0 detected violations in 5 checked states | Desktop/mobile intake, mobile privacy dialog, mobile report, dark report; some gradient contrast checks remain incomplete in axe |

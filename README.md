@@ -4,6 +4,10 @@ A source-code merge of HealthAssist and the Blood Report Analyzer, rebuilt aroun
 
 **This is a tested engineering prototype, not a clinically validated medical device or a universal report parser.** A production deployment still needs representative-report validation, clinician review, privacy/legal review, monitoring, and a live deployment smoke test.
 
+## PDF parser patch 2.0.3
+
+Separated PDF headers now propagate only to geometrically aligned table grids. Range-before-unit layouts, wrapped catalog names, patient-header exclusion and percent-versus-absolute differential counts have regression coverage. Table-owned regions are not parsed a second time as free text. See `docs/PDF-PARSER-FIX.md` for upgrade steps and remaining limitations.
+
 ## What changed
 
 - One React + TypeScript interface and one FastAPI backend, using same-origin `/api` routes.

@@ -20,7 +20,7 @@ No secrets are required for digital report extraction. Deploy a Preview first.
 Check:
 
 - `/` loads the interface and its CSS/JS.
-- `/api/health` returns JSON with `status: ok` and `version: 2.0.0`, not the frontend HTML.
+- `/api/health` returns JSON with `status: ok` and `version: 2.0.3`, not the frontend HTML.
 - “Explore a sample report” returns 8 observations, 2 outside the sample interval, 5 within, and 1 qualitative finding.
 - A digital PDF can be uploaded and row corrections recomputed.
 - A photo without OCR configuration produces an explicit warning or safe error, never an all-clear result.

@@ -10,7 +10,13 @@ from pathlib import Path
 from defusedxml import ElementTree as SafeET
 from pydantic import ValidationError
 from .models import ExtractionInfo, RawObservation
-from .parsing import ParseAccumulator, deduplicate, parse_rows, parse_text
+from .parsing import (
+    ParseAccumulator,
+    deduplicate,
+    parse_rows,
+    parse_text,
+    parse_pdf_tables,
+)
 
 MAX_FILE = 4_000_000
 MAX_PAGES = 15
@@ -144,27 +150,9 @@ def extract(data: bytes, filename: str, allow_cloud=False):
                         raise ExtractionError(
                             "PDF page dimensions exceed safe processing limits."
                         )
+                    owned_regions = []
                     try:
-                        # Coordinates and table cells are complementary, not competing guesses.
-                        tables = page.extract_tables(
-                            table_settings={
-                                "vertical_strategy": "lines",
-                                "horizontal_strategy": "lines",
-                            }
-                        )
-                        if not tables:
-                            tables = page.extract_tables(
-                                table_settings={
-                                    "vertical_strategy": "text",
-                                    "horizontal_strategy": "text",
-                                    "min_words_vertical": 2,
-                                    "min_words_horizontal": 1,
-                                }
-                            )
-                        for tableindex, table in enumerate(tables, 1):
-                            parse_rows(
-                                table, acc, "table", pageno, f"Table {tableindex}"
-                            )
+                        owned_regions = parse_pdf_tables(page, acc, pageno)
                     except Exception:
                         acc.warnings.append(
                             f"Page {pageno}: table extraction was incomplete; text extraction was attempted."
@@ -188,7 +176,28 @@ def extract(data: bytes, filename: str, allow_cloud=False):
                         raise ExtractionError(
                             "The extracted PDF text exceeds the processing limit. Split the report."
                         )
-                    parse_text(text, acc, pageno)
+                    parseable_text = text
+                    if owned_regions:
+                        # Table ownership is spatial, not based on a guessed analyte
+                        # name or value. Retain free text outside successfully mapped
+                        # tables, but do not parse their rows a second time.
+                        def outside_tables(obj):
+                            if obj.get("object_type") != "char":
+                                return True
+                            x = (obj["x0"] + obj["x1"]) / 2
+                            y = (obj["top"] + obj["bottom"]) / 2
+                            return not any(
+                                left <= x <= right and top <= y <= bottom
+                                for left, top, right, bottom in owned_regions
+                            )
+
+                        parseable_text = (
+                            page.filter(outside_tables).extract_text(
+                                layout=False, x_tolerance=2, y_tolerance=3
+                            )
+                            or ""
+                        )
+                    parse_text(parseable_text, acc, pageno)
                     if len(text.strip()) < 30:
                         needs_ocr = True
                         acc.warnings.append(
