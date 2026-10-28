@@ -1,5 +1,5 @@
 -r requirements.txt
 pytest==9.1.1
-reportlab==5.0.1
+reportlab==5.1.0
 python-dotenv==1.2.4
 ruff==0.17.1
